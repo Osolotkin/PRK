@@ -1,0 +1,90 @@
+To build this silly language under linux use './build'
+hopefully it works otherwise some magic has to be applied.
+
+Then, to run its command-line interface use './out/silly_lang_compiler'.
+
+Its not necessary to explain grammar here, as everything can be seen 
+in './yacc.y' file. So here will be just basic introduction with examples.
+
+Each line of code is a statement. Each statement has following structure
+    
+    [variable [assignment_operator expression] [?]]
+
+where elements in brackets can be omitted.
+So there are some examples for better illustration ...
+('>' marks start of the users line/command, '<' marks program output)
+    > a := 1?
+    < 1
+
+    > a := 1
+    
+    > a?
+    < 1
+    
+    > a
+
+As can be seen, question mark at the end of each expression determines if
+value of the expression has to be printed.
+
+Following statement
+    > a
+is equal to
+    > a := 0
+
+There are also two types of assignments.
+To assign value to a variable use ':='
+    > a := 3?
+    < 3
+
+Or other variations
+    > a := 3?
+    < 3
+    > a :+ 1?
+    < 4
+    > a :* 3?
+    < 12
+    
+To assign expression to a variable use '='
+    > a := 1
+    > b
+    > c = a + b?
+    < ((a)+(b))
+
+then c is dependent on a and b
+    > cvalue := 1 + c?
+    < 2
+    > b := 2
+    > cvalue := 1 + c?
+    < 4
+
+
+Each variable has to be declared before use. The Exception are numbers.
+Each number is variable with predefined value of number it represents.
+    > 1?
+    < 1
+    > 1 := 2
+    > 1?
+    < 2
+
+    > a := 1
+    > b := 2
+    > 1 = a + b
+    > c := 1?
+    < 3
+    > a = b + 2
+    > b := 6
+    > c := 1?
+    < 14
+
+Be aware of endless recursions, it will break the program.
+    > a = 1
+    > 1 = a + 1
+    > 1?
+    < Segmentation fault
+
+Consider it as a feature.
+
+Also, there are classic quartet of arithmetic operators +, -, *, /
+one can use + and - as unary ones as much as stack allows and
+parantenis can walk allong too, in worst case the destination is
+Segmentation fault
