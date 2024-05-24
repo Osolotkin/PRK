@@ -1,0 +1,11 @@
+#! /bin/bash
+yacc -d yacc.y
+lex lex.lex
+cc lex.yy.c y.tab.c ./src/*.c -osilly_lang_compiler
+
+mkdir -p ./out
+
+mv lex.yy.c ./out/lex.yy.c
+mv y.tab.h ./out/y.tab.h
+mv y.tab.c ./out/y.tab.c
+mv silly_lang_compiler ./out/silly_lang_compiler
